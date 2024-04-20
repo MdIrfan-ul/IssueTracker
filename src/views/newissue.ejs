@@ -1,0 +1,44 @@
+<section class="py-5 bg-success p-2 text-dark bg-opacity-10">
+        <div class="container ">
+            <h2 class="text-center mb-4">Create Issue</h2>
+    
+            <form action="/newIssue/<%=projectDetails.id%>" method="post">
+                <!-- Title Input -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title"  required>
+                </div>
+    
+                <!-- Description Input -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                </div>
+    
+                <!-- Labels Input with Autocomplete -->
+                <div class="col-md-4 mb-2">
+                    <select class="form-select" multiple aria-label="Select Labels" name="labels">
+                        <option notselected>Add Labels to the Issue</option>
+                    <hr>
+                        <option value="frontend">Frontend</option>
+                        <option value="backend">Backend</option>
+                        <option value="database">DataBase</option>
+                        <option value="deployment">Deployment</option>
+                        <option value="bug">Bug</option>
+                    </select>
+                    
+                </div>
+    
+                <!-- Author Input -->
+                <div class="mb-3">
+                    <label for="author" class="form-label">Author</label>
+                    <input type="text" class="form-control" id="author" name="author" required>
+                </div>
+    
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Create Issue</button>
+                </div>
+            </form>
+        </div>
+    </section>

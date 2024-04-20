@@ -1,0 +1,36 @@
+<section class="py-5 bg-success text-dark bg-opacity-10"id="Projects">
+    <div class="container">
+        <% if(message) { %>
+            <h2 class="text-center mb-4"><%= message %></h2>
+        <% } else { %>
+        <h2 class="text-center mb-4">Filtered Issue Showcase</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <!-- Project Card -->
+            
+            <%filteredIssues.forEach(issues=>{%>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Title: <%=issues.title%></h5>
+                        <p class="card-text">Description: <%=issues.description%></p>
+                        <p class="card-text">Labels: <a class="text-decoration-none text-danger">
+                            <% if (issues.labels && Array.isArray(issues.labels) && issues.labels.length > 0) { %>
+                                <%= issues.labels.join(', ') %>
+                            <% } else { %>
+                                No labels
+                            <% } %>
+                            </a>
+                        </p>
+                        
+                        <p class="card-text"><small class="text-muted">Author: <%=issues.author%></small></p>
+                       <span class="d-flex align-items-center justify-content-end"><a  href ="/projectDetails/<%=issues.projectId%>" type="button"class="btn btn-primary">Back to Project</a></span> 
+                    </div>
+                </div>
+            </div>
+            <%})%>
+        
+           
+            <%}%>
+        </div>
+    </div>
+  </section>

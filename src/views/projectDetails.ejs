@@ -1,0 +1,87 @@
+
+    
+    <section class="py-5 bg-success p-2 text-dark bg-opacity-10">
+        <div class="container">
+            <!-- Project Details -->
+        
+        <div class="mb-4">
+            <h2 class="mb-3"><%=projectDetails.pName%></h2>
+            <p class="lead mb-1"><%=projectDetails.description%></p>
+            <p class="mb-0"><%=projectDetails.author%></p>
+        </div>
+
+        <!-- Filters and Search -->
+<div class="mb-4">
+    <form action="/filter/<%=projectDetails.id%>" method="post">
+        <div class="row">
+            <!-- Filter by Labels -->
+            <div class="col-md-4 mb-2">
+                <select id="filterLabels" name="selectedLabels" class="form-select" multiple aria-label="Select Labels">
+                    <option selected>Filter by Labels</option>
+                    <option value="frontend">FrontEnd</option>
+                    <option value="backend">BackEnd</option>
+                    <option value="database">DataBase</option>
+                    <option value="deployment">Deployment</option>
+                    <option value="bug">Bug</option>
+                    <!-- Add more labels as needed -->
+                </select>
+            </div>
+            <!-- Search by Description -->
+            <div class="col-md-4 mb-2">
+                <input id="searchDescription" name="descriptionQuery" type="text" class="form-control" placeholder="Search by Description">
+            </div>
+            <!-- Search by Author -->
+            <div class="col-md-4 mb-2">
+                <input id="searchAuthor" name="authorQuery" type="text" class="form-control" placeholder="Search by Author">
+            </div>
+        </div>
+        
+        <!-- Apply Filters Button -->
+        <div class="text-end mb-3">
+            <button type="submit" class="btn btn-secondary">Apply Filters</button>
+        </div>
+    </form>
+</div>
+
+        <!-- Issues List -->
+        <div class="table-responsive">
+            <table class="table table-hover table-danger">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Labels</th>
+                        <th>Author</th>
+                        <th>Raised At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example Issue -->
+                    <%issueDetails.forEach(issue=>{%>
+                    <tr>
+                        <td><%=issue.title%></td>
+                        <td><%=issue.description%></td>
+                        <td>
+                            <% if (issue.labels && Array.isArray(issue.labels) && issue.labels.length > 0) { %>
+                                <%= issue.labels.join(', ') %>
+                            <% } else { %>
+                                No labels
+                            <% } %>
+                        </td>
+                        <td><%=issue.author%></td>
+                        <td><%=issue.timestamp%></td>
+                    </tr>
+                    <%})%>
+                    <!-- Add more issues as needed -->
+                </tbody>
+            </table>
+        </div>
+            <!-- Create Issue Button -->
+            <div class="text-center mt-4">
+                <a type="button" class="btn btn-primary" href="/newIssue/<%=projectDetails.id%>">Create Issue</a>
+            </div>
+        </div>
+    </section>
+   
+    
+
