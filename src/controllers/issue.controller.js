@@ -3,23 +3,36 @@ import { createIssue,deleteIssueById,getIssues,getIssuesById } from "../models/i
 
 export default class IssueController{
     async getIssuePage(req,res,next){
-        const projectId = req.params.id;
-        res.render("newissue", { projectDetails: { id: projectId } });
+        try {
+            const projectId = req.params.id;
+            res.render("newissue", { projectDetails: { id: projectId } }); 
+        } catch (error) {
+            console.log(error);
+            res.redirect("/404");
+        }
+        
     }
 
     async newIssue(req,res,next){
-        const { title, description, labels, author } = req.body;
-        // console.log("req.body:", req.body);
-        const projectId = req.params.id;
-        await createIssue(title, description, labels, author, projectId);
-        const projectDetails = await getIssuesById(projectId);
-        // console.log(`projectDetails:${projectDetails}`);
-        res.redirect(`/projectDetails/${req.params.id}`);
+        try {
+            const { title, description, labels, author } = req.body;
+            // console.log("req.body:", req.body);
+            const projectId = req.params.id;
+            await createIssue(title, description, labels, author, projectId);
+            const projectDetails = await getIssuesById(projectId);
+            // console.log(`projectDetails:${projectDetails}`);
+            res.redirect(`/projectDetails/${req.params.id}`);
+        } catch (error) {
+            console.log(error);
+            res.redirect("/404")
+        }
+  
     }
 
 
     async filteredIssue(req, res, next) {
-        let selectedLabels = req.body.selectedLabels;
+        try {
+            let selectedLabels = req.body.selectedLabels;
     
         if (typeof selectedLabels === 'string' && selectedLabels !== 'Filter by Labels') {
             selectedLabels = selectedLabels.split(',').map(label => label.trim()); 
@@ -62,12 +75,23 @@ export default class IssueController{
         } else {
             res.render('filteredIssues', { filteredIssues: filteredIssues, message: null });
         }
+        } catch (error) {
+            console.log(error);
+            res.redirect("/404")
+        }
+        
     }
     
     async deleteIssue(req,res,next){
-        const id = req.params.id;
-        await deleteIssueById(id);
-        res.redirect("/#Projects");
+        try {
+            const id = req.params.id;
+            await deleteIssueById(id);
+            res.redirect("/#Projects");
+        } catch (error) {
+            console.log(error);
+            res.redirect("/404");
+        }
+
     }
     
 }

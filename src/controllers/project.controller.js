@@ -18,9 +18,11 @@ res.render("projects",{projects:projects})
             res.redirect("/")
         } catch (error) {
             console.log(error);
+            res.redirect("/404");
         }
     }
     async projectDetails(req,res,next){
+        try{
         const id = req.params.id;
     
     // console.log('Project ID:', id); // Logging Project ID
@@ -44,10 +46,23 @@ res.render("projects",{projects:projects})
     // console.log('Filtered Issue Details:', issueDetails);
     
     res.render("projectDetails", { projectDetails: projectDetails, issueDetails: issueDetails });
+}catch(error){
+    console.log(error);
+    res.render("error")
+}
     }
     async deleteProjects(req,res,next){
-        const id = req.params.id;
+        try {
+            const id = req.params.id;
         await deleteById(id);
         res.redirect("/");
+        } catch (error) {
+            console.log(error);
+            res.render("error");
+        }
+        
+    }
+    getErrorpage(req,res,next){
+        res.render("error");
     }
 }
