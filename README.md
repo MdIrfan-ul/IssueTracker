@@ -6,6 +6,7 @@ Project Issue Tracker is a simple web application built with Node.js and EJS tha
 
 - Create new projects
 - Search and filter issues by labels, Description, or Author
+- Delete projects and issues
 - Responsive Design Using Bootstrap
 
 ## Technologies Used
