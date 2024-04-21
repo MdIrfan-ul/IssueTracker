@@ -6,8 +6,12 @@ export const createNewProjects = async (projects)=>{
 }
 
 export const getProjects = async ()=>{
-    return ProjectModel.find({});
+    return await ProjectModel.find({});
 }
 export const getById = async (id)=>{
-    return ProjectModel.findById(id);
+    return await ProjectModel.findById(id);
+}
+
+export const deleteById = async (id)=>{
+    return await ProjectModel.findByIdAndDelete(id);
 }

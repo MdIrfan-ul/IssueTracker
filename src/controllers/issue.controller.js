@@ -1,4 +1,5 @@
-import { createIssue,getIssues,getIssuesById } from "../models/issue.model.js";
+import { createIssue,deleteIssueById,getIssues,getIssuesById } from "../models/issue.model.js";
+
 
 export default class IssueController{
     async getIssuePage(req,res,next){
@@ -63,6 +64,10 @@ export default class IssueController{
         }
     }
     
-    
+    async deleteIssue(req,res,next){
+        const id = req.params.id;
+        await deleteIssueById(id);
+        res.redirect("/#Projects");
+    }
     
 }

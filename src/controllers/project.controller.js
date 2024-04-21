@@ -1,5 +1,5 @@
 
-import { createNewProjects,getById,getProjects } from "../models/project.model.js";
+import { createNewProjects,deleteById,getById,getProjects } from "../models/project.model.js";
 import {getIssuesById } from "../models/issue.model.js";
 export default class ProjectController{
     async getProjects(req,res,next){
@@ -44,5 +44,10 @@ res.render("projects",{projects:projects})
     // console.log('Filtered Issue Details:', issueDetails);
     
     res.render("projectDetails", { projectDetails: projectDetails, issueDetails: issueDetails });
+    }
+    async deleteProjects(req,res,next){
+        const id = req.params.id;
+        await deleteById(id);
+        res.redirect("/");
     }
 }

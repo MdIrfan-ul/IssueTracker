@@ -53,6 +53,7 @@
                         <th>Labels</th>
                         <th>Author</th>
                         <th>Raised At</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,6 +71,7 @@
                         </td>
                         <td><%=issue.author%></td>
                         <td><%=issue.timestamp%></td>
+                        <td><a  href ="/deleteIssue/<%=issue.id%>" type="button"class="btn btn-primary ">Delete issue</a></td>
                     </tr>
                     <%})%>
                     <!-- Add more issues as needed -->
@@ -78,7 +80,9 @@
         </div>
             <!-- Create Issue Button -->
             <div class="text-center mt-4">
+                <a  href ="/delete/<%=projectDetails.id%>" type="button"class="btn btn-primary ">Delete Project</a>
                 <a type="button" class="btn btn-primary" href="/newIssue/<%=projectDetails.id%>">Create Issue</a>
+                <a type="button" class="btn btn-primary" href="/#Projects">Back to Home</a>
             </div>
         </div>
     </section>

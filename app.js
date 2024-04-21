@@ -27,6 +27,8 @@ server.get("/projectDetails/:id",projectController.projectDetails);
 server.post("/filter/:id",issueController.filteredIssue);
 server.get("/newIssue/:id",issueController.getIssuePage);
 server.post("/newIssue/:id",issueController.newIssue);
+server.get("/delete/:id",projectController.deleteProjects);
+server.get("/deleteIssue/:id",issueController.deleteIssue)
 server.use(express.static("src/views"));
 
 // const port = 3200;

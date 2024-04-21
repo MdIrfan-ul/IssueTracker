@@ -11,3 +11,6 @@ export const getIssuesById = async (projectId)=>{
     return await IssueModel.find({projectId:projectId});
 }
 
+export const deleteIssueById = async (id)=>{
+return await IssueModel.findByIdAndDelete(id);
+}

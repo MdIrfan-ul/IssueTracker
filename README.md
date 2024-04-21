@@ -6,9 +6,10 @@ Project Issue Tracker is a simple web application built with Node.js and EJS tha
 
 - Create new projects
 - Search and filter issues by labels, Description, or Author
+- Responsive Design Using Bootstrap
 
 ## Technologies Used
-[![Languages Used](https://skillicons.dev/icons?i=js,html,css,nodejs,express,mongodb)](https://skillicons.dev)
+[![Languages Used](https://skillicons.dev/icons?i=js,html,css,bootstrap,nodejs,express,mongodb)](https://skillicons.dev)
 - Node.js
 - Express.js
 - EJS (Embedded JavaScript) for templating
