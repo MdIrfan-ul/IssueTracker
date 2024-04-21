@@ -47,7 +47,7 @@ Project Issue Tracker is a simple web application built with Node.js and EJS tha
     Create a `.env` file in the root directory and add the following:
 
     ```
-    MONGODB_URI=your_mongodb_connection_string
+    DB_URI=your_mongodb_connection_string
     PORT=3000
     ```
 
