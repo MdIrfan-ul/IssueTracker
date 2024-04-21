@@ -20,14 +20,17 @@ server.use(express.urlencoded({extended:true}));
 const projectController = new ProjectController();
 const issueController = new IssueController();
 
+// project Routes
 server.get("/",projectController.getProjects);
 server.get("/create",projectController.getNewProjects);
 server.post("/create",projectController.newProjects);
 server.get("/projectDetails/:id",projectController.projectDetails);
+server.get("/delete/:id",projectController.deleteProjects);
+
+// issue Routes
 server.post("/filter/:id",issueController.filteredIssue);
 server.get("/newIssue/:id",issueController.getIssuePage);
 server.post("/newIssue/:id",issueController.newIssue);
-server.get("/delete/:id",projectController.deleteProjects);
 server.get("/deleteIssue/:id",issueController.deleteIssue);
 server.get("/404",projectController.getErrorpage);
 server.use(express.static("src/views"));
