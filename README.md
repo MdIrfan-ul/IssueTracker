@@ -28,7 +28,7 @@ Project Issue Tracker is a simple web application built with Node.js and EJS tha
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/project-issue-tracker.git
+    git clone [https://github.com/yourusername/project-issue-tracker.git](https://github.com/MdIrfan-ul/IssueTracker.git)
     ```
 
 2. Navigate to the project directory:
