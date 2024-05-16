@@ -24,7 +24,7 @@ timestamp:{type: Date,
   default: Date.now,
   get: function(timestamp) {
       // Convert the date to 12-hour format with AM/PM
-      return timestamp.toLocaleString('en-US', {
+      return timestamp.toLocaleTimeString('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           second: 'numeric',
