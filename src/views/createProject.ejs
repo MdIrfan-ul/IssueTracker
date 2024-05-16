@@ -1,8 +1,13 @@
 
-    
     <section class="py-5 bg-success p-2 text-dark bg-opacity-10 border border-0">
         <div class="container border border-light-subtle">
             <h2 class="text-center mb-4">Create New Project</h2>
+            <% if(errorMessage){ %>
+                <div class="alert alert-danger" role="alert">
+                  <%= errorMessage %>
+                </div>
+              <%}%>
+                              
             <form method="post" action="/create">
                 <div class="mb-3">
                     <label for="pName" class="form-label">Project Name</label>
