@@ -18,7 +18,7 @@ res.render("projects",{projects:projects})
             res.redirect("/")
         } catch (error) {
             console.log(error);
-            res.redirect("/404");
+            res.render('createProject',{errorMessage:error.message});
         }
     }
     async projectDetails(req,res,next){
