@@ -3,7 +3,8 @@ import { ProjectModel } from "./project.Schema.js";
 
 export const createNewProjects = async (projects)=>{
     try{
-        const existingProjects = await ProjectModel.find().exists({projects});
+        const {pName,description,author}=projects;
+        const existingProjects = await ProjectModel.exists({pName,description,author});
         if(existingProjects){
             throw new Error('This Project Already Exist')
         }
