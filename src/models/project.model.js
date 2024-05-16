@@ -2,7 +2,18 @@ import { ProjectModel } from "./project.Schema.js";
 
 
 export const createNewProjects = async (projects)=>{
-    return await new ProjectModel(projects).save();
+    try{
+        const existingProjects = await ProjectModel.find().exists({projects});
+        if(existingProjects){
+            throw new Error('This Project Already Exist')
+        }
+        await new ProjectModel(projects).save();
+    }
+    catch(error){
+console.log(error);
+throw new Error(error);
+    }
+    
 }
 
 export const getProjects = async ()=>{
