@@ -1,21 +1,23 @@
 
-import { createNewProjects,deleteById,getById,getProjects } from "../models/project.model.js";
+import { createNewProjects,deleteById,getById,getEmailById,getProjects } from "../models/project.model.js";
 import {getIssuesById } from "../models/issue.model.js";
 export default class ProjectController{
-    async getProjects(req,res,next){
+    async getProjectsPage(req,res,next){
 let projects = await getProjects();
-res.render("projects",{projects:projects})
+res.render("projects",{projects:projects,userEmail:req.session.userEmail})
     }
 
     getNewProjects(req,res,next){
-        res.render("createProject",{errorMessage:null});
+        res.render("createProject",{errorMessage:null,userEmail:req.session.userEmail});
     }
     async newProjects(req,res,next){
         try {
-            const {pName,description,author} = req.body;
-            const projects = {pName,description,author}
+            const {pName,description} = req.body;
+            const authorEmail = req.session.userEmail;
+            const projects = {pName,description,authorEmail};
             await createNewProjects(projects);
-            res.redirect("/")
+            let project = await getProjects();
+            res.render('projects',{projects:project,userEmail:req.session.userEmail})
         } catch (error) {
             console.log(error);
             res.render('createProject',{errorMessage:error.message});
@@ -45,7 +47,7 @@ res.render("projects",{projects:projects})
     // Logging filtered issueDetails
     // console.log('Filtered Issue Details:', issueDetails);
     
-    res.render("projectDetails", { projectDetails: projectDetails, issueDetails: issueDetails });
+    res.render("projectDetails", { projectDetails: projectDetails, issueDetails: issueDetails,userEmail:req.session.userEmail });
 }catch(error){
     console.log(error);
     res.render("error")
@@ -54,15 +56,29 @@ res.render("projects",{projects:projects})
     async deleteProjects(req,res,next){
         try {
             const id = req.params.id;
+       const projectFound =  await getEmailById(id);
+        if(!projectFound){
+            throw new Error('Project not found');
+        }
+        // Check if the user is authorized to delete the project
+        // console.log(projectFound.author);
+        // console.log(req.session.userEmail);
+        
+        if (projectFound.author.email !== req.session.userEmail) {
+            throw new Error('You are not Authourized to Delete the Project');
+        }
+        
         await deleteById(id);
-        res.redirect("/");
+        var projects = await getProjects();
+        res.render('projects',{projects:projects,userEmail:req.session.userEmail});
+
         } catch (error) {
-            console.log(error);
-            res.render("error");
+            console.error('Error deleting project:', error);
+            res.status(403).render("error",{errorMessage:error.message});
         }
         
     }
     getErrorpage(req,res,next){
-        res.render("error");
+        res.render("error",{errorMessage:null,userEmail:req.session.userEmail});
     }
 }
