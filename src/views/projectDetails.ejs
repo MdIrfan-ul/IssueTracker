@@ -5,9 +5,9 @@
             <!-- Project Details -->
         
         <div class="mb-4">
-            <h2 class="mb-3"><%=projectDetails.pName%></h2>
-            <p class="lead mb-1"><%=projectDetails.description%></p>
-            <p class="mb-0"><%=projectDetails.author%></p>
+            <h2 class="mb-3" id="project-name"><%=projectDetails.pName%></h2>
+            <p class="lead mb-1" id="project-description"><%=projectDetails.description%></p>
+            <p class="mb-0" id="project-author"><%=projectDetails.author?projectDetails.author.name:'Unknown Author'%></p>
         </div>
 
         <!-- Filters and Search -->
@@ -56,7 +56,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="issues-list">
                     <!-- Example Issue -->
                     <%issueDetails.forEach(issue=>{%>
                     <tr>
@@ -69,7 +69,7 @@
                                 No labels
                             <% } %>
                         </td>
-                        <td><%=issue.author%></td>
+                        <td><%= issue.author?issue.author.name:'Unknown Author'%></td>
                         <td><%=issue.timestamp%></td>
                         <td><a  href ="/deleteIssue/<%=issue.id%>" type="button"class="btn btn-primary ">Delete issue</a></td>
                     </tr>
@@ -80,12 +80,97 @@
         </div>
             <!-- Create Issue Button -->
             <div class="text-center mt-4">
-                <a  href ="/delete/<%=projectDetails.id%>" type="button"class="btn btn-primary ">Delete Project</a>
+                <button type="button"class="btn btn-primary " onclick="deleteProject('<%=projectDetails._id%>')">Delete Project</button>
                 <a type="button" class="btn btn-primary" href="/newIssue/<%=projectDetails.id%>">Create Issue</a>
-                <a type="button" class="btn btn-primary" href="/#Projects">Back to Home</a>
+                <a type="button" class="btn btn-primary" href="/">Back to Home</a>
             </div>
-        </div>
+            <div>
+                <canvas id="myChart"></canvas>
+              </div>
+        </div> 
     </section>
-   
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+         const issueDetails = <%-JSON.stringify(issueDetails)%>
+         function countIssuesByLabel(issues) {
+    const counts = { Frontend: 0, Backend: 0, DataBase: 0, Deployment: 0, Bug: 0 };
+
+    issues.forEach(issue => {
+      if (issue.labels && Array.isArray(issue.labels)) {
+        issue.labels.forEach(label => {
+          switch (label.toLowerCase()) {
+            case 'frontend':
+              counts.Frontend++;
+              break;
+            case 'backend':
+              counts.Backend++;
+              break;
+            case 'database':
+              counts.DataBase++;
+              break;
+            case 'deployment':
+              counts.Deployment++;
+              break;
+            case 'bug':
+              counts.Bug++;
+              break;
+            default:
+              break;
+          }
+        });
+      }
+    });
+
+    return counts;
+  }
+
+  // Get issue counts by label
+  const issueCounts = countIssuesByLabel(issueDetails);
+
+  // Extract data for the chart
+  const chartData = [
+    issueCounts.Frontend,
+    issueCounts.Backend,
+    issueCounts.DataBase,
+    issueCounts.Deployment,
+    issueCounts.Bug
+  ];
+      const ctx = document.getElementById('myChart');
+    
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Frontend', 'Backend', 'DataBase', 'Deployment', 'Bug'],
+          datasets: [{
+            label: 'Issues',
+            data: chartData,
+            borderWidth: 1,
+            backgroundColor: [
+          'rgba(75, 192, 192, 0.2)',  // Light Cyan
+          'rgba(54, 16, 235, 0.2)',  // Light Blue
+          'rgba(255, 206, 86, 0.2)',  // Light Yellow
+          'rgba(75, 192, 192, 0.2)',  // Light Cyan
+          'rgba(255, 99, 132, 0.2)'   // Light Red
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 99, 132, 1)'
+        ],
+          }]
+          
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            }
+          }
+        }
+      });
+    </script>
     
 
