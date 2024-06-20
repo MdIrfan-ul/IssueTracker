@@ -1,11 +1,12 @@
 import { createIssue,deleteIssueById,getIssues,getIssuesById } from "../models/issue.model.js";
+import { getById } from "../models/project.model.js";
 
 
 export default class IssueController{
     async getIssuePage(req,res,next){
         try {
             const projectId = req.params.id;
-            res.render("newissue", { projectDetails: { id: projectId } }); 
+            res.render("newissue", { projectDetails: { id: projectId } ,userEmail:req.session.userEmail}); 
         } catch (error) {
             console.log(error);
             res.redirect("/404");
@@ -15,13 +16,16 @@ export default class IssueController{
 
     async newIssue(req,res,next){
         try {
-            const { title, description, labels, author } = req.body;
+            const { title, description, labels} = req.body;
             // console.log("req.body:", req.body);
+            const authorEmail = req.session.userEmail;
             const projectId = req.params.id;
-            await createIssue(title, description, labels, author, projectId);
-            const projectDetails = await getIssuesById(projectId);
+            await createIssue(title, description, labels, authorEmail, projectId);
+            const projectDetails = await getById(projectId);
+            // const projectDetails = await getIssuesById(projectId);
             // console.log(`projectDetails:${projectDetails}`);
-            res.redirect(`/projectDetails/${req.params.id}`);
+            const issueDetails = await getIssuesById(projectId);
+            res.render('projectDetails',{projectDetails:projectDetails,issueDetails:issueDetails,userEmail:req.session.userEmail});
         } catch (error) {
             console.log(error);
             res.redirect("/404")
@@ -57,12 +61,14 @@ export default class IssueController{
         const filteredIssues = projectIssues.filter(issue => {
             const hasSelectedLabels = selectedLabels.length === 0 || selectedLabels.some(label => issue.labels.includes(label));
             const matchesDescription = issue.description.toLowerCase().includes(descriptionQuery.toLowerCase());
-            const matchesAuthor = issue.author.toLowerCase().includes(authorQuery.toLowerCase());
+            const matchesAuthor = issue.author.name.toLowerCase().includes(authorQuery.toLowerCase());
     
             // console.log('Issue:', issue.title);
             // console.log('Has Selected Labels:', hasSelectedLabels);
             // console.log('Matches Description:', matchesDescription);
             // console.log('Matches Author:', matchesAuthor);
+
+
     
             return hasSelectedLabels && matchesDescription && matchesAuthor;
         });
@@ -75,6 +81,12 @@ export default class IssueController{
         } else {
             res.render('filteredIssues', { filteredIssues: filteredIssues, message: null });
         }
+        console.log('Selected Labels:', selectedLabels);
+        console.log('Description Query:', descriptionQuery);
+        console.log('Author Query:', authorQuery);
+        console.log('Issue Details:', issueDetails);
+        console.log('Project Issues:', projectIssues);
+        console.log('Filtered Issues:', filteredIssues);
         } catch (error) {
             console.log(error);
             res.redirect("/404")
