@@ -11,10 +11,7 @@ const ProjectSchema = new mongoose.Schema({
         minLength: [10, "Description should have atleast  10 characters"]
     },
     author:{
-        type:String,
-        required: [true, "Author name is requires"],
-        maxLength: [30, "Author name can't exceed 30 characters"],
-        minLength: [2, "Author name  should have atleast 2 charcters"],
+        type:mongoose.Schema.Types.ObjectId,ref:'users'
     }
 });
 
