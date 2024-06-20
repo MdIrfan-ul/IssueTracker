@@ -1,4 +1,10 @@
 <div class="d-flex justify-content-center">
+  <% if(errorMessage){ %>
+    <div class="alert alert-danger" role="alert">
+      <%= errorMessage %>
+    </div>
+  <%}%>
+  
     <img
     class="w-50 h-75 object-fit-cover"
     src="/images/404Error.png"
