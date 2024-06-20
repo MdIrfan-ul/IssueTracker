@@ -17,7 +17,7 @@ const IssueSchema = new mongoose.Schema({
     required:true,
     default:[]
 }],
-  author:{type:String,required:[true,"author is required for the issue"],minLength:[2,"author should be more than 2 characters"]},
+  author:{type:mongoose.Schema.Types.ObjectId,ref:'users'},
   projectId:{type:mongoose.Schema.Types.ObjectId,
 ref:"Project"},
 timestamp:{type: Date,
